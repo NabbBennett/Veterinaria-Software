@@ -24,7 +24,9 @@ Route::prefix('admin')->name('admin.')->group(function () {
         return view('admin.register');
     })->name('register');
     
-    // Dashboard y sus secciones
+});
+
+// Dashboard y sus secciones
     Route::prefix('dashboard')->name('dashboard.')->group(function () {
         // Dashboard principal
         Route::get('/', function () {
@@ -52,4 +54,3 @@ Route::prefix('admin')->name('admin.')->group(function () {
             return view('admin.dashboard.caja');
         })->name('caja');
     });
-});

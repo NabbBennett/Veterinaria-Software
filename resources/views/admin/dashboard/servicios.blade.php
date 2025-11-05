@@ -3,9 +3,41 @@
 @section('content')
 <div class="d-flex justify-content-between align-items-center mb-4">
     <h4>Gestión de Servicios</h4>
-    <button class="btn btn-primary">
+    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#nuevoServicioModal">
         <i class="bi bi-plus-circle"></i> Nuevo Servicio
     </button>
+</div>
+
+<!-- Modal para nuevo servicio -->
+<div class="modal fade" id="nuevoServicioModal" tabindex="-1" role="dialog" aria-labelledby="nuevoServicioModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form><!-- Muevo el formulario para envolver body + footer -->
+                <div class="modal-header">
+                    <h5 class="modal-title" id="nuevoServicioModalLabel">Añadir Nuevo Servicio</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="mb-3">
+                        <label class="form-label">Nombre del servicio</label>
+                        <input name="service_name" type="text" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Precio</label>
+                        <input name="price" type="number" class="form-control" required>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Descripción</label>
+                        <input name="description" type="text" class="form-control" required>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar Servicio</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 <!-- Lista de Servicios -->
@@ -51,34 +83,6 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
-
-<!-- Formulario para nuevo servicio -->
-<div class="card mt-4">
-    <div class="card-body">
-        <h5 class="card-title">Agregar Nuevo Servicio</h5>
-        <form>
-            <div class="row">
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label class="form-label">Nombre del Servicio</label>
-                        <input type="text" class="form-control" required>
-                    </div>
-                </div>
-                <div class="col-md-6">
-                    <div class="mb-3">
-                        <label class="form-label">Precio</label>
-                        <input type="number" step="0.01" class="form-control" required>
-                    </div>
-                </div>
-            </div>
-            <div class="mb-3">
-                <label class="form-label">Descripción</label>
-                <textarea class="form-control" rows="3"></textarea>
-            </div>
-            <button type="submit" class="btn btn-primary">Guardar Servicio</button>
-        </form>
     </div>
 </div>
 @endsection
