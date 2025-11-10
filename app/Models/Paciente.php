@@ -3,32 +3,28 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use Illuminate\Database\Eloquent\Model;
 
-class User extends Authenticatable
+class Paciente extends Model
 {
-    use HasFactory, Notifiable;
+    use HasFactory;
 
     protected $fillable = [
         'nombre',
-        'apellidos',
+        'especie',
+        'raza',
+        'edad',
+        'peso',
+        'propietario',
         'telefono',
-        'puesto',
-        'email',
-        'usuario',
-        'password',
+        'alergias',
+        'notas_medicas',
         'activo'
     ];
 
-    protected $hidden = [
-        'password',
-        'remember_token',
-    ];
-
     protected $casts = [
-        'email_verified_at' => 'datetime',
         'activo' => 'boolean',
+        'peso' => 'decimal:2',
     ];
 
     // Relaciones
@@ -45,5 +41,10 @@ class User extends Authenticatable
     public function historiales()
     {
         return $this->hasMany(HistorialMedico::class);
+    }
+
+    public function vacunas()
+    {
+        return $this->hasMany(Vacuna::class);
     }
 }

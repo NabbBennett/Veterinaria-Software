@@ -25,6 +25,10 @@
             border: none;
             padding: 12px 30px;
         }
+        .alert-danger {
+            border-radius: 10px;
+            border: none;
+        }
     </style>
 </head>
 <body>
@@ -41,13 +45,28 @@
                                 <p class="text-muted">Ingresa la clave de acceso</p>
                             </div>
 
+                            <!-- Mostrar errores -->
+                            @if($errors->any())
+                                <div class="alert alert-danger">
+                                    {{ $errors->first('clave') }}
+                                </div>
+                            @endif
+
+                            @if(session('success'))
+                                <div class="alert alert-success">
+                                    {{ session('success') }}
+                                </div>
+                            @endif
+
                             <!-- Formulario de clave -->
-                            <form id="claveForm">
+                            <!-- CORREGIDO: Cambiado admin.verify por admin.access (POST) -->
+                            <form method="POST" action="{{ route('admin.access') }}">
                                 @csrf
                                 <div class="mb-4">
                                     <label for="clave" class="form-label fw-bold">CLAVE DE ACCESO:</label>
                                     <input type="password" class="form-control form-control-lg" id="clave" 
-                                           placeholder="Ingresa la clave proporcionada" required>
+                                           name="clave" placeholder="Ingresa la clave proporcionada" required 
+                                           value="{{ old('clave') }}" autofocus>
                                 </div>
                                 
                                 <div class="d-grid gap-2 mb-4">
@@ -57,7 +76,8 @@
                                 </div>
                             </form>
 
-                            <a href="{{ route('home') }}" class="btn btn-link btn-sm">← Volver al acceso principal</a>
+                            <!-- CORREGIDO: Cambiado home por welcome -->
+                            <a href="{{ route('welcome') }}" class="btn btn-link btn-sm">← Volver al acceso principal</a>
 
                             <!-- Footer -->
                             <div class="text-center mt-4 pt-3 border-top">
@@ -70,18 +90,6 @@
         </div>
     </div>
 
-    <script>
-        document.getElementById('claveForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            const clave = document.getElementById('clave').value;
-            
-            // En producción, esto se validaría en el backend
-            if (clave === '1') {
-                window.location.href = "{{ route('admin.login') }}";
-            } else {
-                alert('Clave incorrecta. Por favor verifica e intenta nuevamente.');
-            }
-        });
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

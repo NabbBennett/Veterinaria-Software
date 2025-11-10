@@ -24,11 +24,25 @@
                                 <h4 class="card-title">INICIAR SESIÓN</h4>
                             </div>
 
-                            <form action="{{ route('admin.dashboard.index') }}" method="GET">
+                            <!-- Mostrar mensajes de éxito/error -->
+                            @if(session('success'))
+                                <div class="alert alert-success">
+                                    {{ session('success') }}
+                                </div>
+                            @endif
+
+                            @if($errors->any())
+                                <div class="alert alert-danger">
+                                    {{ $errors->first() }}
+                                </div>
+                            @endif
+
+                            <form action="{{ route('admin.login') }}" method="POST">
                                 @csrf
                                 <div class="mb-3">
                                     <label for="usuario" class="form-label fw-bold">USUARIO:</label>
-                                    <input type="text" class="form-control form-control-lg" name="usuario" required>
+                                    <input type="text" class="form-control form-control-lg" name="usuario" required 
+                                           value="{{ old('usuario') }}" autofocus>
                                 </div>
                                 
                                 <div class="mb-4">
@@ -42,9 +56,9 @@
                             </form>
 
                             <div class="text-center">
-                                <a href="{{ route('admin.register') }}" class="btn btn-link">¿No tienes cuenta? Regístrate</a>
+                                <a href="{{ route('admin.register') }}" class="btn btn-link">Registrarte</a>
                                 <br>
-                                <a href="{{ route('admin.index') }}" class="btn btn-link btn-sm">← Volver</a>
+                                <a href="{{ route('welcome') }}" class="btn btn-link btn-sm">← Volver al inicio</a>
                             </div>
 
                             <div class="text-center mt-4 pt-3 border-top">

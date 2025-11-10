@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro - Admin</title>
+    <title>Registro - Veterinaria</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         .register-container {
@@ -26,78 +26,164 @@
             border: none;
             padding: 12px 30px;
         }
+        .btn-primary:hover {
+            background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        .form-control:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        .form-select:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
+        }
+        .alert {
+            border-radius: 10px;
+            border: none;
+        }
     </style>
 </head>
 <body>
     <div class="register-container d-flex align-items-center justify-content-center">
         <div class="container">
             <div class="row justify-content-center">
-                <div class="col-md-6">
+                <div class="col-md-8">
                     <div class="card register-card">
                         <div class="card-body p-5">
                             <!-- Logo -->
                             <div class="text-center mb-4">
                                 <div class="logo mb-3">LOGO</div>
                                 <h4 class="card-title">REGISTRO DE USUARIO</h4>
+                                <p class="text-muted">Complete todos los campos para registrarse en el sistema</p>
                             </div>
 
+                            <!-- Mostrar mensajes de éxito -->
+                            @if(session('success'))
+                                <div class="alert alert-success">
+                                    {{ session('success') }}
+                                </div>
+                            @endif
+
+                            <!-- Mostrar errores de validación -->
+                            @if($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul class="mb-0">
+                                        @foreach($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
                             <!-- Formulario de registro -->
-                            <form id="registerForm">
+                            <form action="{{ route('admin.register.submit') }}" method="POST" id="registerForm">
+                                @csrf
+                                
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label for="nombre" class="form-label fw-bold">NOMBRE:</label>
-                                        <input type="text" class="form-control" id="nombre" placeholder="Ingresa tu nombre" required>
+                                        <input type="text" class="form-control form-control-lg" id="nombre" 
+                                               name="nombre" placeholder="Ingresa tu nombre" 
+                                               value="{{ old('nombre') }}" required>
+                                        @error('nombre')
+                                            <div class="text-danger small">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="apellidos" class="form-label fw-bold">APELLIDOS:</label>
-                                        <input type="text" class="form-control" id="apellidos" placeholder="Ingresa tus apellidos" required>
+                                        <input type="text" class="form-control form-control-lg" id="apellidos" 
+                                               name="apellidos" placeholder="Ingresa tus apellidos" 
+                                               value="{{ old('apellidos') }}" required>
+                                        @error('apellidos')
+                                            <div class="text-danger small">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                 </div>
                                 
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
                                         <label for="telefono" class="form-label fw-bold">TELÉFONO:</label>
-                                        <input type="tel" class="form-control" id="telefono" placeholder="Número telefónico" required>
+                                        <input type="tel" class="form-control form-control-lg" id="telefono" 
+                                               name="telefono" placeholder="Número telefónico" 
+                                               value="{{ old('telefono') }}" required>
+                                        @error('telefono')
+                                            <div class="text-danger small">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                     <div class="col-md-6 mb-3">
                                         <label for="puesto" class="form-label fw-bold">PUESTO:</label>
-                                        <select class="form-select" id="puesto" required>
+                                        <select class="form-select form-select-lg" id="puesto" name="puesto" required>
                                             <option value="">Selecciona un puesto</option>
-                                            <option value="administrativo">Administrativo</option>
-                                            <option value="veterinario">Veterinario</option>
-                                            <option value="peluquero">Peluquero</option>
-                                            <option value="recepcionista">Recepcionista</option>
+                                            <option value="administrativo" {{ old('puesto') == 'administrativo' ? 'selected' : '' }}>Administrativo</option>
+                                            <option value="veterinario" {{ old('puesto') == 'veterinario' ? 'selected' : '' }}>Veterinario</option>
+                                            <option value="peluquero" {{ old('puesto') == 'peluquero' ? 'selected' : '' }}>Peluquero</option>
+                                            <option value="recepcionista" {{ old('puesto') == 'recepcionista' ? 'selected' : '' }}>Recepcionista</option>
+                                            <option value="asistente" {{ old('puesto') == 'asistente' ? 'selected' : '' }}>Asistente Veterinario</option>
                                         </select>
+                                        @error('puesto')
+                                            <div class="text-danger small">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                 </div>
 
                                 <div class="row">
                                     <div class="col-md-6 mb-3">
+                                        <label for="email" class="form-label fw-bold">CORREO ELECTRÓNICO:</label>
+                                        <input type="email" class="form-control form-control-lg" id="email" 
+                                               name="email" placeholder="correo@ejemplo.com" 
+                                               value="{{ old('email') }}" required>
+                                        @error('email')
+                                            <div class="text-danger small">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                    <div class="col-md-6 mb-3">
                                         <label for="usuario" class="form-label fw-bold">USUARIO:</label>
-                                        <input type="text" class="form-control" id="usuario" placeholder="Crea tu usuario" required>
+                                        <input type="text" class="form-control form-control-lg" id="usuario" 
+                                               name="usuario" placeholder="Crea tu usuario" 
+                                               value="{{ old('usuario') }}" required>
+                                        @error('usuario')
+                                            <div class="text-danger small">{{ $message }}</div>
+                                        @enderror
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="password" class="form-label fw-bold">CONTRASEÑA:</label>
+                                        <input type="password" class="form-control form-control-lg" id="password" 
+                                               name="password" placeholder="Crea tu contraseña" required>
+                                        @error('password')
+                                            <div class="text-danger small">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                     <div class="col-md-6 mb-4">
-                                        <label for="password" class="form-label fw-bold">CONTRASEÑA:</label>
-                                        <input type="password" class="form-control" id="password" placeholder="Crea tu contraseña" required>
+                                        <label for="password_confirmation" class="form-label fw-bold">CONFIRMAR CONTRASEÑA:</label>
+                                        <input type="password" class="form-control form-control-lg" id="password_confirmation" 
+                                               name="password_confirmation" placeholder="Repite tu contraseña" required>
                                     </div>
                                 </div>
                                 
                                 <div class="d-grid gap-2 mb-3">
                                     <button type="submit" class="btn btn-primary btn-lg">
-                                        REGISTRARSE
+                                        <span id="submitText">REGISTRARSE</span>
+                                        <div id="loadingSpinner" class="spinner-border spinner-border-sm d-none" role="status">
+                                            <span class="visually-hidden">Cargando...</span>
+                                        </div>
                                     </button>
                                 </div>
 
                                 <div class="text-center">
                                     <a href="{{ route('admin.login') }}" class="btn btn-link">¿Ya tienes cuenta? Inicia Sesión</a>
                                     <br>
-                                    <a href="{{ route('home') }}" class="btn btn-link btn-sm">← Volver al acceso principal</a>
+                                    <a href="{{ route('admin.access') }}" class="btn btn-link btn-sm">← Volver al acceso</a>
                                 </div>
                             </form>
 
                             <!-- Footer -->
                             <div class="text-center mt-4 pt-3 border-top">
-                                <small class="text-muted">©2025 CONSULTORIO VETERINARIO</small>
+                                <small class="text-muted">©2025 CONSULTORIO VETERINARIO - Sistema Administrativo</small>
                             </div>
                         </div>
                     </div>
@@ -106,24 +192,72 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
     <script>
         document.getElementById('registerForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const submitText = document.getElementById('submitText');
+            const loadingSpinner = document.getElementById('loadingSpinner');
             
-            // Validación básica
-            const nombre = document.getElementById('nombre').value;
-            const apellidos = document.getElementById('apellidos').value;
-            const telefono = document.getElementById('telefono').value;
-            const puesto = document.getElementById('puesto').value;
-            const usuario = document.getElementById('usuario').value;
+            // Mostrar loading
+            submitText.textContent = 'REGISTRANDO...';
+            loadingSpinner.classList.remove('d-none');
+            submitBtn.disabled = true;
+            
+            // Validación adicional del frontend
             const password = document.getElementById('password').value;
+            const passwordConfirmation = document.getElementById('password_confirmation').value;
             
-            if (nombre && apellidos && telefono && puesto && usuario && password) {
-                alert('Registro exitoso! Serás redirigido al login.');
-                window.location.href = 'login.html';
-            } else {
-                alert('Por favor completa todos los campos');
+            if (password !== passwordConfirmation) {
+                e.preventDefault();
+                alert('Las contraseñas no coinciden. Por favor verifica.');
+                submitText.textContent = 'REGISTRARSE';
+                loadingSpinner.classList.add('d-none');
+                submitBtn.disabled = false;
+                return;
             }
+            
+            if (password.length < 6) {
+                e.preventDefault();
+                alert('La contraseña debe tener al menos 6 caracteres.');
+                submitText.textContent = 'REGISTRARSE';
+                loadingSpinner.classList.add('d-none');
+                submitBtn.disabled = false;
+                return;
+            }
+            
+            // Si pasa todas las validaciones, el formulario se envía
+        });
+
+        // Validación en tiempo real para contraseñas
+        document.getElementById('password_confirmation').addEventListener('input', function() {
+            const password = document.getElementById('password').value;
+            const confirmation = this.value;
+            
+            if (confirmation && password !== confirmation) {
+                this.classList.add('is-invalid');
+                this.classList.remove('is-valid');
+            } else if (confirmation && password === confirmation) {
+                this.classList.add('is-valid');
+                this.classList.remove('is-invalid');
+            } else {
+                this.classList.remove('is-valid', 'is-invalid');
+            }
+        });
+
+        // Validación de teléfono
+        document.getElementById('telefono').addEventListener('input', function(e) {
+            this.value = this.value.replace(/[^0-9+-\s]/g, '');
+        });
+
+        // Validación de nombre y apellidos (solo letras y espacios)
+        document.getElementById('nombre').addEventListener('input', function(e) {
+            this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
+        });
+
+        document.getElementById('apellidos').addEventListener('input', function(e) {
+            this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
         });
     </script>
 </body>
