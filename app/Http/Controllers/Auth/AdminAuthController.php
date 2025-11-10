@@ -8,14 +8,8 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
 
-class AdminAuthController extends Controller
-{
-    /**
-     * Muestra el formulario de login - SIN MIDDLEWARE
-     */
-    public function showLoginForm()
-    {
-        // Verificación MUY SIMPLE sin middleware
+class AdminAuthController extends Controller{
+    public function showLoginForm(){
         if (!Session::get('admin_authenticated')) {
             return redirect()->route('admin.access')
                 ->with('info', 'Primero necesitas verificar el acceso administrativo.');
@@ -24,36 +18,24 @@ class AdminAuthController extends Controller
         return view('admin.login');
     }
 
-    /**
-     * Muestra el formulario de registro - SIN MIDDLEWARE
-     */
-    public function showRegisterForm()
-    {
-        // Verificación simple
+    public function showRegisterForm(){
         if (!Session::get('admin_authenticated')) {
             return redirect()->route('admin.access');
         }
-
         return view('admin.register');
     }
 
-    /**
-     * Procesa el login de usuarios
-     */
-    public function login(Request $request)
-    {
-        // Validación básica
+
+    public function login(Request $request){
         if (empty($request->usuario) || empty($request->password)) {
             return redirect()->back()
                 ->withInput()
                 ->with('error', 'Usuario y contraseña son requeridos');
         }
 
-        // Buscar usuario
         $user = User::where('usuario', $request->usuario)->first();
 
         if ($user && Hash::check($request->password, $user->password)) {
-            // Login exitoso
             Session::put('user_id', $user->id);
             Session::put('user_name', $user->nombre);
             Session::put('user_puesto', $user->puesto);
@@ -68,20 +50,14 @@ class AdminAuthController extends Controller
             ->with('error', 'Credenciales incorrectas');
     }
 
-    /**
-     * Procesa el registro de nuevos usuarios
-     */
-    public function register(Request $request)
-    {
+    public function register(Request $request){
         try {
-            // Validación manual simple
             if (empty($request->usuario) || empty($request->password)) {
                 return redirect()->back()
                     ->withInput()
                     ->with('error', 'Usuario y contraseña son requeridos');
             }
 
-            // Crear usuario
             $user = User::create([
                 'nombre' => $request->nombre,
                 'apellidos' => $request->apellidos,
@@ -103,11 +79,7 @@ class AdminAuthController extends Controller
         }
     }
 
-    /**
-     * Cierra sesión de usuario
-     */
-    public function logoutUser(Request $request)
-    {
+    public function logoutUser(Request $request){
         Session::forget('user_id');
         Session::forget('user_name');
         Session::forget('user_puesto');

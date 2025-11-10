@@ -113,14 +113,6 @@ class ProfileController extends Controller
             ], 404);
         }
 
-        // Log para depuración
-        \Log::info('Datos recibidos para cambio de contraseña', [
-            'user_id' => $user->id,
-            'has_current_password' => !empty($request->current_password),
-            'has_new_password' => !empty($request->new_password),
-            'has_confirmation' => !empty($request->new_password_confirmation)
-        ]);
-
         // Validación
         $validator = Validator::make($request->all(), [
             'current_password' => 'required',

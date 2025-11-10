@@ -62,7 +62,6 @@
 </div>
 
 <script>
-// Editar paciente
 function editarPaciente(pacienteId) {
     fetch(`/admin/dashboard/pacientes/${pacienteId}/edit`)
     .then(response => response.json())
@@ -76,7 +75,6 @@ function editarPaciente(pacienteId) {
         document.getElementById('edit_age').value = data.edad;
         document.getElementById('edit_weight').value = data.peso;
         
-        // Mostrar modal
         const modal = new bootstrap.Modal(document.getElementById('modificarModal'));
         modal.show();
     })
@@ -86,23 +84,20 @@ function editarPaciente(pacienteId) {
     });
 }
 
-// Actualizar paciente
 document.getElementById('formModificarPaciente').addEventListener('submit', function(e) {
     e.preventDefault();
     
     const submitBtn = this.querySelector('button[type="submit"]');
     const originalText = submitBtn.innerHTML;
     
-    // Mostrar loading
     submitBtn.innerHTML = '<i class="bi bi-hourglass-split"></i> Actualizando...';
     submitBtn.disabled = true;
     
     const pacienteId = document.getElementById('paciente_id').value;
     const formData = new FormData(this);
     
-    // IMPORTANTE: Usar PUT y la ruta correcta
     fetch(`/admin/dashboard/pacientes/${pacienteId}`, {
-        method: 'POST', // Laravel necesita POST para PUT y DELETE
+        method: 'POST', 
         body: formData,
         headers: {
             'X-Requested-With': 'XMLHttpRequest',
@@ -118,7 +113,6 @@ document.getElementById('formModificarPaciente').addEventListener('submit', func
     })
     .then(data => {
         if (data.success) {
-            // Cerrar modal
             const modal = bootstrap.Modal.getInstance(document.getElementById('modificarModal'));
             modal.hide();
             
@@ -138,8 +132,7 @@ document.getElementById('formModificarPaciente').addEventListener('submit', func
     });
 });
 
-// Eliminar paciente
-function eliminarPaciente() {
+}function eliminarPaciente() {
     if (!confirm('¿Estás seguro de que quieres eliminar este paciente? Esta acción no se puede deshacer.')) {
         return;
     }

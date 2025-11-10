@@ -189,7 +189,6 @@ class CitaController extends Controller
         try {
             $cita = Cita::with(['paciente', 'servicio', 'user'])->findOrFail($id);
             
-            // Retornar la vista renderizada
             return view('admin.dashboard.citas.ver', compact('cita'))->render();
 
         } catch (\Exception $e) {
@@ -414,7 +413,7 @@ class CitaController extends Controller
         }
     }
 
-    // Método adicional para cambiar estado de cita
+    //Cambiar estado de cita
     public function cambiarEstado(Request $request, $id)
     {
         if (!Session::get('user_authenticated')) {

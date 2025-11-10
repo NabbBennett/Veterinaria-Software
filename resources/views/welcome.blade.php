@@ -6,43 +6,14 @@
     <title>Veterinaria Amigos Fieles</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
-    <style>
-        .hero-section {
-            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1450778869180-41d0601e046e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1926&q=80');
-            background-size: cover;
-            background-position: center;
-            color: white;
-            padding: 150px 0;
-        }
-        
-        .service-card {
-            transition: transform 0.3s ease;
-            border: none;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        
-        .service-card:hover {
-            transform: translateY(-5px);
-        }
-        
-        .location-section {
-            background-color: #f8f9fa;
-        }
-        
-        .footer {
-            background-color: #343a40;
-            color: white;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/welcome/welcome.css') }}">
+
 </head>
 <body>
     <section class="hero-section text-center">
         <div class="container">
             <h1 class="display-4 fw-bold mb-3">VETERINARIA AMIGOS FIELES</h1>
-            
-            <!-- BOTÓN CORREGIDO: Cambiado por admin.access -->
             <a href="{{ route('admin.access') }}" class="btn btn-outline-primary">Acceso Administrativo</a>
-
             <p class="lead mb-4">Veterinaria las 24 horas</p>
             <div class="row justify-content-center">
                 <div class="col-md-8">
@@ -54,7 +25,6 @@
         </div>
     </section>
 
-    <!-- Nuestros Servicios -->
     <section class="py-5">
         <div class="container">
             <h2 class="text-center mb-5 fw-bold">NUESTROS SERVICIOS</h2>
@@ -90,7 +60,6 @@
         </div>
     </section>
 
-    <!-- Ubicación -->
     <section class="location-section py-5">
         <div class="container">
             <h2 class="text-center mb-5 fw-bold">UBICACIÓN</h2>
@@ -115,7 +84,6 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <!-- Mapa -->
                     <div class="bg-light rounded p-5 text-center h-100 d-flex align-items-center justify-content-center">
                         <div>
                             <i class="bi bi-map display-1 text-muted mb-3"></i>
@@ -128,7 +96,6 @@
         </div>
     </section>
 
-    <!-- Agenda una Cita -->
     <section class="py-5">
         <div class="container">
             <div class="row justify-content-center">
@@ -157,7 +124,6 @@
         </div>
     </section>
 
-    <!-- Footer -->
     <footer class="footer py-4">
         <div class="container text-center">
             <p class="mb-0">© 2025 CONSULTORIO VETERINARIO AMIGOS FIELES</p>
@@ -165,7 +131,6 @@
         </div>
     </footer>
 
-    <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

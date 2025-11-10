@@ -13,7 +13,6 @@
     </div>
 </div>
 
-<!-- Modal para realizar servicio -->
 <div class="modal fade" id="realizarServicioModal" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -52,7 +51,6 @@
                         </select>
                     </div>
 
-                    <!-- Campos dinámicos según el tipo de servicio -->
                     <div id="camposConsultaCirugia" style="display: none;">
                         <div class="mb-3">
                             <label class="form-label">Padecimiento *</label>
@@ -78,7 +76,6 @@
     </div>
 </div>
 
-<!-- Modal para nuevo servicio -->
 <div class="modal fade" id="nuevoServicioModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -120,10 +117,8 @@
     </div>
 </div>
 
-<!-- Incluir modal de modificar -->
 @include('admin.dashboard.servicios.modificar')
 
-<!-- Lista de Servicios Disponibles -->
 <div class="row mb-4">
     <div class="col-12">
         <div class="card">
@@ -199,7 +194,6 @@
     </div>
 </div>
 
-<!-- Historial de Servicios Realizados -->
 <div class="card">
     <div class="card-body">
         <h5 class="card-title">
@@ -249,7 +243,6 @@
 </div>
 
 <script>
-// Actualizar campos según el tipo de servicio seleccionado
 function actualizarCamposServicio() {
     const servicioSelect = document.querySelector('select[name="servicio_id"]');
     const selectedOption = servicioSelect.options[servicioSelect.selectedIndex];
@@ -258,16 +251,13 @@ function actualizarCamposServicio() {
     
     if (tipoServicio === 'consulta' || tipoServicio === 'cirugia') {
         camposConsultaCirugia.style.display = 'block';
-        // Hacer requeridos los campos de padecimiento
         document.querySelector('textarea[name="padecimiento"]').required = true;
     } else {
         camposConsultaCirugia.style.display = 'none';
-        // Quitar requerido de los campos
         document.querySelector('textarea[name="padecimiento"]').required = false;
     }
 }
 
-// Realizar servicio
 document.getElementById('formRealizarServicio').addEventListener('submit', function(e) {
     e.preventDefault();
     
@@ -309,7 +299,6 @@ document.getElementById('formRealizarServicio').addEventListener('submit', funct
     });
 });
 
-// Guardar nuevo servicio
 document.getElementById('formNuevoServicio').addEventListener('submit', function(e) {
     e.preventDefault();
     
@@ -351,7 +340,6 @@ document.getElementById('formNuevoServicio').addEventListener('submit', function
     });
 });
 
-// Función para mostrar alertas
 function showAlert(message, type) {
     const alertDiv = document.createElement('div');
     alertDiv.className = `alert alert-${type === 'success' ? 'success' : 'danger'} alert-dismissible fade show`;

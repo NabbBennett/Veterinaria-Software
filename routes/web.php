@@ -25,7 +25,7 @@ Route::prefix('admin')->group(function () {
     Route::post('/logout', [AdminAuthController::class, 'logoutUser'])->name('admin.logout');
 });
 
-// Rutas del Dashboard (protegidas)
+// Rutas de Dashboard
 Route::prefix('admin/dashboard')->group(function () {
     // Dashboard principal
     Route::get('/', [AdminController::class, 'dashboard'])->name('admin.dashboard');
@@ -42,11 +42,9 @@ Route::prefix('admin/dashboard')->group(function () {
     Route::get('/citas', [CitaController::class, 'index'])->name('admin.dashboard.citas');
     Route::get('/citas/crear', [CitaController::class, 'create'])->name('admin.dashboard.citas.create');
     Route::post('/citas', [CitaController::class, 'store'])->name('admin.dashboard.citas.store');
-
     Route::get('/citas/count', [CitaController::class, 'countCitas'])->name('admin.dashboard.citas.count');
     Route::get('/citas/por-fecha', [CitaController::class, 'citasPorFecha'])->name('admin.dashboard.citas.por-fecha');
     Route::put('/citas/{id}/cambiar-estado', [CitaController::class, 'cambiarEstado'])->name('admin.dashboard.citas.cambiar-estado');
-
     Route::get('/citas/{id}', [CitaController::class, 'show'])->name('admin.dashboard.citas.show');
     Route::get('/citas/{id}/editar', [CitaController::class, 'edit'])->name('admin.dashboard.citas.edit');
     Route::put('/citas/{id}', [CitaController::class, 'update'])->name('admin.dashboard.citas.update');
@@ -76,7 +74,7 @@ Route::prefix('admin/dashboard')->group(function () {
     Route::get('/caja/registrar', [CajaController::class, 'create'])->name('admin.dashboard.caja.create');
     Route::get('/caja/reporte', [CajaController::class, 'reporte'])->name('admin.dashboard.caja.reporte');
 
-    // Caja - Rutas de tickets
+    // ticket de venta
     Route::get('/caja/ticket/{venta_id}', [CajaController::class, 'generarTicket'])->name('admin.dashboard.caja.ticket');
     Route::get('/caja/ticket/{venta_id}/ver', [CajaController::class, 'verTicket'])->name('admin.dashboard.caja.ticket.ver');
     Route::get('/caja/ticket/{venta_id}/completo', [CajaController::class, 'mostrarTicket'])->name('admin.dashboard.caja.ticket.completo');

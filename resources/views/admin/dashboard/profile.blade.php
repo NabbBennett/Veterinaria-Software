@@ -11,7 +11,6 @@
 </div>
 
 <div class="row">
-    <!-- Información del Perfil -->
     <div class="col-md-8">
         <div class="card mb-4">
             <div class="card-header bg-primary text-white">
@@ -78,9 +77,7 @@
         </div>
     </div>
 
-    <!-- Cambio de Contraseña y Info -->
     <div class="col-md-4">
-        <!-- Cambio de Contraseña -->
         <div class="card mb-4">
             <div class="card-header bg-warning text-dark">
                 <h5 class="card-title mb-0">
@@ -114,7 +111,6 @@
             </div>
         </div>
 
-        <!-- Información de la Cuenta -->
         <div class="card">
             <div class="card-header bg-info text-white">
                 <h5 class="card-title mb-0">
@@ -147,7 +143,6 @@
     </div>
 </div>
 
-<!-- Modal de éxito -->
 <div class="modal fade" id="successModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -166,7 +161,6 @@
 </div>
 
 <script>
-// Función para mostrar alertas
 function showAlert(message, type) {
     const alertDiv = document.createElement('div');
     alertDiv.className = `alert alert-${type} alert-dismissible fade show`;
@@ -185,7 +179,6 @@ function showAlert(message, type) {
     }, 5000);
 }
 
-// Función para limpiar errores
 function clearErrors() {
     const errorElements = document.querySelectorAll('.is-invalid, .invalid-feedback');
     errorElements.forEach(element => {
@@ -196,7 +189,6 @@ function clearErrors() {
     });
 }
 
-// Actualizar perfil
 document.getElementById('profileForm').addEventListener('submit', function(e) {
     e.preventDefault();
     
@@ -226,7 +218,6 @@ document.getElementById('profileForm').addEventListener('submit', function(e) {
             successModal.show();
         } else {
             if (data.errors) {
-                // Mostrar errores de validación
                 Object.keys(data.errors).forEach(field => {
                     const input = document.querySelector(`[name="${field}"]`);
                     const errorElement = document.getElementById(`${field}Error`);
@@ -251,7 +242,6 @@ document.getElementById('profileForm').addEventListener('submit', function(e) {
     });
 });
 
-// Validación mejorada para contraseñas
 function validatePasswordForm() {
     const currentPassword = document.querySelector('input[name="current_password"]').value.trim();
     const newPassword = document.querySelector('input[name="new_password"]').value.trim();
@@ -259,17 +249,14 @@ function validatePasswordForm() {
     
     let isValid = true;
     
-    // Limpiar errores previos
     clearErrors();
     
-    // Validar contraseña actual
     if (!currentPassword) {
         document.querySelector('input[name="current_password"]').classList.add('is-invalid');
         document.getElementById('current_passwordError').textContent = 'La contraseña actual es obligatoria.';
         isValid = false;
     }
     
-    // Validar nueva contraseña
     if (!newPassword) {
         document.querySelector('input[name="new_password"]').classList.add('is-invalid');
         document.getElementById('new_passwordError').textContent = 'La nueva contraseña es obligatoria.';
@@ -280,7 +267,6 @@ function validatePasswordForm() {
         isValid = false;
     }
     
-    // Validar confirmación
     if (!confirmPassword) {
         document.querySelector('input[name="new_password_confirmation"]').classList.add('is-invalid');
         document.getElementById('new_password_confirmationError').textContent = 'Debes confirmar la nueva contraseña.';
@@ -295,11 +281,9 @@ function validatePasswordForm() {
 }
 
 
-// Actualizar el evento submit
 document.getElementById('passwordForm').addEventListener('submit', function(e) {
     e.preventDefault();
     
-    // Validar antes de enviar
     if (!validatePasswordForm()) {
         showAlert('Por favor corrige los errores en el formulario', 'error');
         return;
@@ -354,7 +338,6 @@ document.getElementById('passwordForm').addEventListener('submit', function(e) {
     });
 });
 
-// Validación en tiempo real para contraseñas
 document.querySelector('input[name="new_password_confirmation"]').addEventListener('input', function() {
     const newPassword = document.querySelector('input[name="new_password"]').value;
     const confirmation = this.value;
@@ -373,12 +356,10 @@ document.querySelector('input[name="new_password_confirmation"]').addEventListen
     }
 });
 
-// Validación de teléfono
 document.querySelector('input[name="telefono"]').addEventListener('input', function(e) {
     this.value = this.value.replace(/[^0-9+-\s]/g, '');
 });
 
-// Validación de nombre y apellidos (solo letras y espacios)
 document.querySelector('input[name="nombre"]').addEventListener('input', function(e) {
     this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
 });

@@ -6,7 +6,6 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body">
-                <!-- Información del paciente -->
                 <div class="card mb-4">
                     <div class="card-body">
                         <h6 class="card-title">Información del Paciente</h6>
@@ -25,7 +24,6 @@
                     </div>
                 </div>
                 
-                <!-- Historial de servicios -->
                 <h6>Historial de Servicios</h6>
                 <div class="table-responsive">
                     <table class="table table-sm table-striped">
@@ -39,12 +37,10 @@
                             </tr>
                         </thead>
                         <tbody id="tablaHistorial">
-                            <!-- Los datos se llenarán con JavaScript -->
                         </tbody>
                     </table>
                 </div>
                 
-                <!-- Mensaje cuando no hay historial -->
                 <div id="sinHistorial" class="text-center py-4" style="display: none;">
                     <i class="bi bi-inbox display-4 text-muted"></i>
                     <h5 class="text-muted mt-3">Sin historial</h5>
@@ -59,9 +55,7 @@
 </div>
 
 <script>
-// Ver historial
 function verHistorial(pacienteId) {
-    // Mostrar loading
     const modalBody = document.querySelector('#historialModal .modal-body');
     const originalContent = modalBody.innerHTML;
     modalBody.innerHTML = `
@@ -73,17 +67,14 @@ function verHistorial(pacienteId) {
         </div>
     `;
     
-    // Mostrar modal primero
     const modal = new bootstrap.Modal(document.getElementById('historialModal'));
     modal.show();
     
     fetch(`/admin/dashboard/pacientes/${pacienteId}`)
     .then(response => response.json())
     .then(data => {
-        // Restaurar contenido
         modalBody.innerHTML = originalContent;
         
-        // Llenar datos del paciente
         document.getElementById('nombreMascotaHistorial').textContent = data.paciente.nombre;
         document.getElementById('propietarioHistorial').textContent = data.paciente.propietario;
         document.getElementById('telefonoHistorial').textContent = data.paciente.telefono;
@@ -92,7 +83,6 @@ function verHistorial(pacienteId) {
         document.getElementById('edadHistorial').textContent = data.paciente.edad;
         document.getElementById('pesoHistorial').textContent = data.paciente.peso;
         
-        // Llenar historial
         const tablaHistorial = document.getElementById('tablaHistorial');
         const sinHistorial = document.getElementById('sinHistorial');
         

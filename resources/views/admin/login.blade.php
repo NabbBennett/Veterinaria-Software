@@ -5,12 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Veterinaria</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .login-container { min-height: 100vh; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
-        .login-card { border: none; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
-        .logo { font-size: 2.5rem; font-weight: bold; color: #667eea; }
-        .btn-primary { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border: none; padding: 12px 30px; }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/admin/login.css') }}">
 </head>
 <body>
     <div class="login-container d-flex align-items-center justify-content-center">
@@ -24,7 +19,6 @@
                                 <h4 class="card-title">INICIAR SESIÓN</h4>
                             </div>
 
-                            <!-- Mostrar mensajes de éxito/error -->
                             @if(session('success'))
                                 <div class="alert alert-success">
                                     {{ session('success') }}

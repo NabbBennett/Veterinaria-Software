@@ -5,45 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registro - Veterinaria</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        .register-container {
-            min-height: 100vh;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 20px 0;
-        }
-        .register-card {
-            border: none;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-        }
-        .logo {
-            font-size: 2.5rem;
-            font-weight: bold;
-            color: #667eea;
-        }
-        .btn-primary {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border: none;
-            padding: 12px 30px;
-        }
-        .btn-primary:hover {
-            background: linear-gradient(135deg, #5a6fd8 0%, #6a4190 100%);
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-        }
-        .form-control:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
-        }
-        .form-select:focus {
-            border-color: #667eea;
-            box-shadow: 0 0 0 0.2rem rgba(102, 126, 234, 0.25);
-        }
-        .alert {
-            border-radius: 10px;
-            border: none;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ asset('css/admin/register.css') }}">
 </head>
 <body>
     <div class="register-container d-flex align-items-center justify-content-center">
@@ -52,21 +14,18 @@
                 <div class="col-md-8">
                     <div class="card register-card">
                         <div class="card-body p-5">
-                            <!-- Logo -->
                             <div class="text-center mb-4">
                                 <div class="logo mb-3">LOGO</div>
                                 <h4 class="card-title">REGISTRO DE USUARIO</h4>
                                 <p class="text-muted">Complete todos los campos para registrarse en el sistema</p>
                             </div>
 
-                            <!-- Mostrar mensajes de éxito -->
                             @if(session('success'))
                                 <div class="alert alert-success">
                                     {{ session('success') }}
                                 </div>
                             @endif
 
-                            <!-- Mostrar errores de validación -->
                             @if($errors->any())
                                 <div class="alert alert-danger">
                                     <ul class="mb-0">
@@ -77,7 +36,6 @@
                                 </div>
                             @endif
 
-                            <!-- Formulario de registro -->
                             <form action="{{ route('admin.register.submit') }}" method="POST" id="registerForm">
                                 @csrf
                                 
@@ -120,7 +78,6 @@
                                             <option value="veterinario" {{ old('puesto') == 'veterinario' ? 'selected' : '' }}>Veterinario</option>
                                             <option value="peluquero" {{ old('puesto') == 'peluquero' ? 'selected' : '' }}>Peluquero</option>
                                             <option value="recepcionista" {{ old('puesto') == 'recepcionista' ? 'selected' : '' }}>Recepcionista</option>
-                                            <option value="asistente" {{ old('puesto') == 'asistente' ? 'selected' : '' }}>Asistente Veterinario</option>
                                         </select>
                                         @error('puesto')
                                             <div class="text-danger small">{{ $message }}</div>
@@ -181,7 +138,6 @@
                                 </div>
                             </form>
 
-                            <!-- Footer -->
                             <div class="text-center mt-4 pt-3 border-top">
                                 <small class="text-muted">©2025 CONSULTORIO VETERINARIO - Sistema Administrativo</small>
                             </div>
@@ -200,12 +156,10 @@
             const submitText = document.getElementById('submitText');
             const loadingSpinner = document.getElementById('loadingSpinner');
             
-            // Mostrar loading
             submitText.textContent = 'REGISTRANDO...';
             loadingSpinner.classList.remove('d-none');
             submitBtn.disabled = true;
             
-            // Validación adicional del frontend
             const password = document.getElementById('password').value;
             const passwordConfirmation = document.getElementById('password_confirmation').value;
             
@@ -227,10 +181,8 @@
                 return;
             }
             
-            // Si pasa todas las validaciones, el formulario se envía
         });
 
-        // Validación en tiempo real para contraseñas
         document.getElementById('password_confirmation').addEventListener('input', function() {
             const password = document.getElementById('password').value;
             const confirmation = this.value;
@@ -246,12 +198,10 @@
             }
         });
 
-        // Validación de teléfono
         document.getElementById('telefono').addEventListener('input', function(e) {
             this.value = this.value.replace(/[^0-9+-\s]/g, '');
         });
 
-        // Validación de nombre y apellidos (solo letras y espacios)
         document.getElementById('nombre').addEventListener('input', function(e) {
             this.value = this.value.replace(/[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g, '');
         });

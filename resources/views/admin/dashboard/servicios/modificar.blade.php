@@ -47,7 +47,6 @@
 </div>
 
 <script>
-// Editar servicio
 function editarServicio(servicioId) {
     fetch(`/admin/dashboard/servicios/${servicioId}/edit`)
     .then(response => response.json())
@@ -67,7 +66,6 @@ function editarServicio(servicioId) {
     });
 }
 
-// Actualizar servicio
 document.getElementById('formModificarServicio').addEventListener('submit', function(e) {
     e.preventDefault();
     
@@ -111,7 +109,6 @@ document.getElementById('formModificarServicio').addEventListener('submit', func
     });
 });
 
-// Eliminar servicio
 function eliminarServicio() {
     const servicioId = document.getElementById('servicio_id').value;
     

@@ -37,7 +37,7 @@ class Cita extends Model
         return $this->belongsTo(Servicio::class);
     }
 
-    // Relación con User (veterinario)
+    // Relación con User
     public function user()
     {
         return $this->belongsTo(User::class);

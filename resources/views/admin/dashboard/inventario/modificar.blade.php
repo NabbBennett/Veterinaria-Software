@@ -51,7 +51,6 @@
 </div>
 
 <script>
-// Editar producto
 function editarProducto(productoId) {
     fetch(`/admin/dashboard/inventario/${productoId}/edit`)
     .then(response => response.json())
@@ -71,7 +70,6 @@ function editarProducto(productoId) {
     });
 }
 
-// Actualizar producto
 document.getElementById('formModificarProducto').addEventListener('submit', function(e) {
     e.preventDefault();
     
@@ -115,7 +113,6 @@ document.getElementById('formModificarProducto').addEventListener('submit', func
     });
 });
 
-// Eliminar desde modal
 function eliminarProductoDesdeModal() {
     const productoId = document.getElementById('producto_id').value;
     eliminarProducto(productoId);

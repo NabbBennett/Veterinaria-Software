@@ -13,7 +13,6 @@
     </div>
 </div>
 
-<!-- Modal para nueva venta -->
 <div class="modal fade" id="nuevaVentaModal" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -54,7 +53,6 @@
                         </div>
                     </div>
 
-                    <!-- Selector de Productos -->
                     <div id="productosSection" style="display: none;">
                         <div class="mb-3">
                             <label class="form-label">Producto</label>
@@ -75,7 +73,6 @@
                         </div>
                     </div>
 
-                    <!-- Selector de Servicios Disponibles -->
                     <div id="serviciosSection" style="display: none;">
                         <div class="mb-3">
                             <label class="form-label">Servicio Disponible</label>
@@ -136,7 +133,6 @@
     </div>
 </div>
 
-<!-- Modal para mostrar el ticket después de la venta -->
 <div class="modal fade" id="ticketModal" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -148,7 +144,6 @@
             </div>
             <div class="modal-body">
                 <div id="ticketContent">
-                    <!-- El contenido del ticket se cargará aquí -->
                 </div>
             </div>
             <div class="modal-footer">
@@ -163,7 +158,6 @@
     </div>
 </div>
 
-<!-- Tabla de ventas actual -->
 <div class="card mb-4">
     <div class="card-body">
         <h5 class="card-title">REGISTRO DE VENTAS</h5>
@@ -179,14 +173,12 @@
                     </tr>
                 </thead>
                 <tbody id="tablaVentas">
-                    <!-- Las ventas se cargarán dinámicamente aquí -->
                 </tbody>
             </table>
         </div>
     </div>
 </div>
 
-<!-- Total e impresión -->
 <div class="card">
     <div class="card-body">
         <div class="row">
@@ -203,13 +195,10 @@
 </div>
 
 <script>
-// Variables globales
 let ventaActual = [];
 let ventaIdActual = null;
 
-// ==================== FUNCIONES DE PERSISTENCIA ====================
 
-// Cargar venta desde localStorage al iniciar
 function cargarVentaDesdeStorage() {
     const ventaGuardada = localStorage.getItem('ventaActualCaja');
     if (ventaGuardada) {
@@ -224,7 +213,6 @@ function cargarVentaDesdeStorage() {
     }
 }
 
-// Guardar venta en localStorage
 function guardarVentaEnStorage() {
     try {
         localStorage.setItem('ventaActualCaja', JSON.stringify(ventaActual));
@@ -234,15 +222,11 @@ function guardarVentaEnStorage() {
     }
 }
 
-// Limpiar venta del storage
 function limpiarVentaStorage() {
     localStorage.removeItem('ventaActualCaja');
     console.log('Venta limpiada del storage');
 }
 
-// ==================== FUNCIONES DE INTERFAZ ====================
-
-// Función para mostrar alertas
 function showAlert(message, type) {
     const alertDiv = document.createElement('div');
     alertDiv.className = `alert alert-${type === 'success' ? 'success' : 'danger'} alert-dismissible fade show`;
@@ -261,19 +245,15 @@ function showAlert(message, type) {
     }, 3000);
 }
 
-// Mostrar/ocultar secciones según tipo de venta
 document.getElementById('tipoVentaSelect').addEventListener('change', function() {
     const tipo = this.value;
     document.getElementById('productosSection').style.display = tipo === 'producto' ? 'block' : 'none';
     document.getElementById('serviciosSection').style.display = tipo === 'servicio' ? 'block' : 'none';
-    
-    // Limpiar campos
     document.getElementById('precioUnitarioInput').value = '';
     document.getElementById('subtotalInput').value = '';
     document.getElementById('cantidadInput').disabled = false;
 });
 
-// Auto-cargar precio cuando se selecciona producto/servicio
 document.getElementById('productoSelect').addEventListener('change', function() {
     const selectedOption = this.options[this.selectedIndex];
     const precio = selectedOption.getAttribute('data-precio');
@@ -293,12 +273,11 @@ document.getElementById('servicioSelect').addEventListener('change', function() 
     if (precio) {
         document.getElementById('precioUnitarioInput').value = precio;
         document.getElementById('cantidadInput').value = 1;
-        document.getElementById('cantidadInput').disabled = true; // Para servicios, la cantidad generalmente es 1
+        document.getElementById('cantidadInput').disabled = true; 
         calcularSubtotal();
     }
 });
 
-// Calcular subtotal cuando cambia cantidad
 document.getElementById('cantidadInput').addEventListener('input', calcularSubtotal);
 
 function calcularSubtotal() {
@@ -309,9 +288,7 @@ function calcularSubtotal() {
     document.getElementById('subtotalInput').value = subtotal.toFixed(2);
 }
 
-// ==================== FUNCIONES DE GESTIÓN DE VENTA ====================
 
-// Agregar item a la venta
 document.getElementById('formNuevaVenta').addEventListener('submit', function(e) {
     e.preventDefault();
     
@@ -342,7 +319,6 @@ document.getElementById('formNuevaVenta').addEventListener('submit', function(e)
         return;
     }
     
-    // Verificar stock si es producto
     if (tipoVenta === 'producto') {
         const selectedOption = document.getElementById('productoSelect').options[document.getElementById('productoSelect').selectedIndex];
         const stock = parseInt(selectedOption.getAttribute('data-stock'));
@@ -353,7 +329,6 @@ document.getElementById('formNuevaVenta').addEventListener('submit', function(e)
         }
     }
     
-    // Agregar a la venta actual
     const item = {
         tipo: tipoVenta,
         producto_id: tipoVenta === 'producto' ? productoId : null,
@@ -364,28 +339,25 @@ document.getElementById('formNuevaVenta').addEventListener('submit', function(e)
         nombre: tipoVenta === 'producto' 
             ? document.getElementById('productoSelect').options[document.getElementById('productoSelect').selectedIndex].text.split(' - ')[0]
             : document.getElementById('servicioSelect').options[document.getElementById('servicioSelect').selectedIndex].text.split(' - ')[0],
-        timestamp: Date.now() // Para identificar items únicos
+        timestamp: Date.now()
     };
     
     ventaActual.push(item);
     actualizarTablaVentas();
     guardarVentaEnStorage();
     
-    // Limpiar formulario
     this.reset();
     document.getElementById('productosSection').style.display = 'none';
     document.getElementById('serviciosSection').style.display = 'none';
     document.getElementById('cantidadInput').disabled = false;
     document.getElementById('tipoVentaSelect').value = '';
     
-    // Cerrar modal
     const modal = bootstrap.Modal.getInstance(document.getElementById('nuevaVentaModal'));
     modal.hide();
     
     showAlert('Artículo agregado a la venta', 'success');
 });
 
-// Actualizar tabla de ventas
 function actualizarTablaVentas() {
     const tabla = document.getElementById('tablaVentas');
     const totalElement = document.getElementById('totalVenta');
@@ -421,7 +393,6 @@ function actualizarTablaVentas() {
     totalElement.textContent = `$${total.toFixed(2)}`;
 }
 
-// Eliminar item de la venta
 function eliminarItemVenta(index) {
     if (confirm('¿Estás seguro de que quieres eliminar este artículo de la venta?')) {
         ventaActual.splice(index, 1);
@@ -431,7 +402,6 @@ function eliminarItemVenta(index) {
     }
 }
 
-// Finalizar venta
 document.getElementById('btnFinalizarVenta').addEventListener('click', function() {
     if (ventaActual.length === 0) {
         showAlert('No hay artículos en la venta', 'error');
@@ -458,12 +428,10 @@ document.getElementById('btnFinalizarVenta').addEventListener('click', function(
             showAlert('Venta registrada exitosamente', 'success');
             ventaIdActual = data.venta_id;
             
-            // Limpiar venta actual
             ventaActual = [];
             actualizarTablaVentas();
             limpiarVentaStorage();
             
-            // Mostrar el ticket en modal
             mostrarTicketEnModal();
             
         } else {
@@ -476,22 +444,18 @@ document.getElementById('btnFinalizarVenta').addEventListener('click', function(
     });
 });
 
-// ==================== FUNCIONES DE TICKET ====================
-
 function mostrarTicketEnModal() {
     if (!ventaIdActual) {
         showAlert('No hay venta para mostrar', 'error');
         return;
     }
     
-    // Cargar el contenido del ticket
     fetch(`{{ url('admin/dashboard/caja/ticket') }}/${ventaIdActual}/ver`)
         .then(response => response.json())
         .then(data => {
             if (data.success) {
                 document.getElementById('ticketContent').innerHTML = data.html;
                 
-                // Mostrar el modal
                 const ticketModal = new bootstrap.Modal(document.getElementById('ticketModal'));
                 ticketModal.show();
                 
@@ -519,9 +483,6 @@ function imprimirTicket() {
     };
 }
 
-// ==================== FUNCIONES ADICIONALES ====================
-
-// Botón para limpiar venta manualmente
 function limpiarVentaManual() {
     if (ventaActual.length === 0) {
         showAlert('No hay venta que limpiar', 'info');
@@ -536,23 +497,16 @@ function limpiarVentaManual() {
     }
 }
 
-// ==================== INICIALIZACIÓN ====================
-
-// Inicializar
 document.addEventListener('DOMContentLoaded', function() {
-    // Configurar el botón de limpiar venta
     const limpiarBtn = document.querySelector('.btn-warning');
     if (limpiarBtn) {
         limpiarBtn.onclick = limpiarVentaManual;
     }
     
-    // Cargar venta existente al iniciar
     cargarVentaDesdeStorage();
     
-    // Actualizar tabla inicial
     actualizarTablaVentas();
     
-    // Guardar venta antes de que la página se cierre/recargue
     window.addEventListener('beforeunload', function() {
         if (ventaActual.length > 0) {
             guardarVentaEnStorage();

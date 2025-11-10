@@ -28,8 +28,6 @@ class CajaController extends Controller
         try {
             $productos = Producto::where('activo', true)->where('stock', '>', 0)->get();
             $pacientes = Paciente::where('activo', true)->get();
-            
-            // CAMBIO IMPORTANTE: Cargar servicios disponibles en lugar de servicios realizados
             $servicios = Servicio::where('activo', true)->get();
             
             return view('admin.dashboard.caja', compact('productos', 'servicios', 'pacientes'));
@@ -37,10 +35,9 @@ class CajaController extends Controller
         } catch (\Exception $e) {
             \Log::error('Error en CajaController@index: ' . $e->getMessage());
             
-            // Cargar vista con datos mínimos
             $productos = Producto::where('activo', true)->where('stock', '>', 0)->get();
             $pacientes = Paciente::where('activo', true)->get();
-            $servicios = collect(); // Colección vacía para servicios
+            $servicios = collect(); 
             
             return view('admin.dashboard.caja', compact('productos', 'servicios', 'pacientes'));
         }
@@ -168,7 +165,6 @@ class CajaController extends Controller
         }
 
         try {
-            // CORREGIDO: usar detalleVentas en lugar de detalles
             $ventas = Venta::with(['detalleVentas.producto', 'detalleVentas.servicio', 'paciente', 'user'])
                 ->orderBy('fecha', 'desc')
                 ->orderBy('created_at', 'desc')
@@ -193,7 +189,6 @@ class CajaController extends Controller
         }
 
         try {
-            // CORREGIDO: usar detalleVentas en lugar de detalles
             $venta = Venta::with([
                 'detalleVentas.producto', 
                 'detalleVentas.servicio',
@@ -201,7 +196,6 @@ class CajaController extends Controller
                 'user'
             ])->findOrFail($venta_id);
 
-            // CORREGIDO: ruta correcta de la vista
             return view('admin.dashboard.caja.ticket-completo', compact('venta'));
 
         } catch (\Exception $e) {
@@ -210,9 +204,7 @@ class CajaController extends Controller
         }
     }
 
-    /**
-     * Generar ticket de venta para impresión
-     */
+    //Generar ticket de venta para impresión
     public function generarTicket($venta_id)
     {
         if (!Session::get('user_authenticated')) {
@@ -221,7 +213,6 @@ class CajaController extends Controller
         }
 
         try {
-            // CORREGIDO: usar detalleVentas en lugar de detalles
             $venta = Venta::with([
                 'detalleVentas.producto', 
                 'detalleVentas.servicio',
@@ -229,7 +220,6 @@ class CajaController extends Controller
                 'user'
             ])->findOrFail($venta_id);
 
-            // CORREGIDO: ruta correcta de la vista
             return view('admin.dashboard.caja.ticket-impresion', compact('venta'));
 
         } catch (\Exception $e) {
@@ -238,9 +228,7 @@ class CajaController extends Controller
         }
     }
 
-    /**
-     * Descargar ticket en PDF
-     */
+    // Descargar ticket en PDF/
     public function descargarTicketPDF($venta_id)
     {
         if (!Session::get('user_authenticated')) {
@@ -249,7 +237,6 @@ class CajaController extends Controller
         }
 
         try {
-            // CORREGIDO: usar detalleVentas en lugar de detalles
             $venta = Venta::with([
                 'detalleVentas.producto', 
                 'detalleVentas.servicio',
@@ -257,7 +244,6 @@ class CajaController extends Controller
                 'user'
             ])->findOrFail($venta_id);
 
-            // CORREGIDO: ruta correcta de la vista
             $pdf = Pdf::loadView('admin.dashboard.caja.ticket-pdf', compact('venta'));
 
             return $pdf->download('ticket-venta-' . $venta_id . '.pdf');
@@ -268,9 +254,7 @@ class CajaController extends Controller
         }
     }
 
-    /**
-     * Ver ticket en modal (para vista previa)
-     */
+    //Ver ticket en modal (para vista previa)
     public function verTicket($venta_id)
     {
         if (!Session::get('user_authenticated')) {
@@ -281,7 +265,6 @@ class CajaController extends Controller
         }
 
         try {
-            // CORREGIDO: usar detalleVentas en lugar de detalles
             $venta = Venta::with([
                 'detalleVentas.producto', 
                 'detalleVentas.servicio',
@@ -289,7 +272,6 @@ class CajaController extends Controller
                 'user'
             ])->findOrFail($venta_id);
 
-            // CORREGIDO: ruta correcta de la vista
             $html = view('admin.dashboard.caja.ticket-modal', compact('venta'))->render();
 
             return response()->json([

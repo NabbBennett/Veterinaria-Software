@@ -8,7 +8,6 @@
     </button>
 </div>
 
-<!-- Alertas de stock bajo -->
 @if($productosBajos->count() > 0)
 <div class="alert alert-warning">
     <i class="bi bi-exclamation-triangle"></i>
@@ -16,7 +15,6 @@
 </div>
 @endif
 
-<!-- Buscador -->
 <div class="card mb-4">
     <div class="card-body">
         <h5 class="card-title">BUSCADOR</h5>
@@ -67,7 +65,6 @@
     </div>
 </div>
 
-<!-- Tabla de Inventario -->
 <div class="card mb-4">
     <div class="card-body">
         <div class="d-flex justify-content-between align-items-center mb-3">
@@ -123,7 +120,6 @@
     </div>
 </div>
 
-<!-- Modal para nuevo producto -->
 <div class="modal fade" id="nuevoProductoModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -177,11 +173,9 @@
     </div>
 </div>
 
-<!-- Incluir modal de modificar -->
 @include('admin.dashboard.inventario.modificar')
 
 <script>
-// Función principal de búsqueda
 function buscarProductos() {
     const nombre = document.getElementById('buscadorNombre').value.toLowerCase();
     const categoria = document.getElementById('buscadorCategoria').value;
@@ -198,17 +192,14 @@ function buscarProductos() {
         
         let coincide = true;
         
-        // Filtro por nombre
         if (nombre && !nombreProducto.includes(nombre)) {
             coincide = false;
         }
         
-        // Filtro por categoría
         if (categoria && categoriaProducto !== categoria) {
             coincide = false;
         }
         
-        // Filtro por estado de stock
         if (estadoStock === 'bajo' && stock > stockMinimo) {
             coincide = false;
         } else if (estadoStock === 'normal' && stock <= stockMinimo) {
@@ -223,11 +214,9 @@ function buscarProductos() {
         }
     });
     
-    // Actualizar contador
     document.getElementById('contadorResultados').textContent = `Mostrando ${resultados} de {{ $productos->count() }} productos`;
 }
 
-// Limpiar búsqueda
 function limpiarBusqueda() {
     document.getElementById('buscadorNombre').value = '';
     document.getElementById('buscadorCategoria').value = '';
@@ -241,7 +230,6 @@ function limpiarBusqueda() {
     document.getElementById('contadorResultados').textContent = `Mostrando {{ $productos->count() }} productos`;
 }
 
-// Búsqueda en tiempo real
 document.getElementById('buscadorNombre').addEventListener('input', function() {
     if (this.value.length === 0 || this.value.length >= 2) {
         buscarProductos();
@@ -251,7 +239,6 @@ document.getElementById('buscadorNombre').addEventListener('input', function() {
 document.getElementById('buscadorCategoria').addEventListener('change', buscarProductos);
 document.getElementById('buscadorStock').addEventListener('change', buscarProductos);
 
-// Guardar nuevo producto
 document.getElementById('formNuevoProducto').addEventListener('submit', function(e) {
     e.preventDefault();
     
@@ -293,7 +280,6 @@ document.getElementById('formNuevoProducto').addEventListener('submit', function
     });
 });
 
-// Aumentar stock
 function aumentarStock(productoId) {
     fetch(`/admin/dashboard/inventario/${productoId}/aumentar-stock`, {
         method: 'POST',

@@ -7,6 +7,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
             --sidebar-width: 250px;
@@ -330,7 +331,6 @@
     </style>
 </head>
 <body>
-    <!-- Mobile Header - Mejorado -->
     <div class="mobile-header d-md-none">
         <button class="mobile-menu-btn" onclick="toggleSidebar()">
             <i class="bi bi-list"></i>
@@ -341,12 +341,11 @@
         </div>
     </div>
 
-    <!-- Sidebar -->
     <div class="sidebar" id="sidebar">
         <div class="sidebar-brand">
             <div class="logo">
-                <span class="logo-full">LOGO</span>
-                <span class="logo-icon">V</span>
+                <span class="logo-full"><i class="fa-solid fa-paw"></i><br>Veterinaria</span>
+                <span class="logo-icon"><i class="fa-solid fa-paw"></i></span>
             </div>
             <button class="btn btn-sm btn-outline-light d-md-none mt-2" onclick="toggleSidebar()">
                 <i class="bi bi-x"></i>
@@ -400,12 +399,9 @@
         </div>
     </div>
 
-    <!-- Overlay for mobile -->
     <div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
 
-    <!-- Contenido Principal -->
     <div class="main-content" id="mainContent">
-        <!-- Desktop Header -->
         <div class="header d-none d-md-flex">
             <div>
                 <h4 class="mb-0">@yield('page-title', 'Dashboard')</h4>
@@ -419,7 +415,6 @@
             </div>
         </div>
 
-        <!-- Contenido de la página -->
         @yield('content')
 
         <footer class="text-center mt-5 pt-4 border-top">
@@ -430,7 +425,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     
     <script>
-        // Check if sidebar state is saved in localStorage
         const savedSidebarState = localStorage.getItem('sidebarCollapsed');
         if (savedSidebarState === 'true') {
             document.getElementById('sidebar').classList.add('collapsed');
@@ -445,7 +439,6 @@
             
             mainContent.classList.toggle('sidebar-collapsed');
             
-            // Save state to localStorage
             localStorage.setItem('sidebarCollapsed', isCollapsed);
             
             updateToggleIcon(isCollapsed);
@@ -468,7 +461,6 @@
             sidebar.classList.toggle('mobile-open');
             overlay.classList.toggle('active');
             
-            // Prevent body scroll when sidebar is open
             if (sidebar.classList.contains('mobile-open')) {
                 document.body.style.overflow = 'hidden';
             } else {
@@ -482,14 +474,12 @@
             }
         }
         
-        // Close sidebar when clicking outside on mobile
         document.getElementById('overlay').addEventListener('click', function() {
             if (window.innerWidth < 768) {
                 toggleSidebar();
             }
         });
         
-        // Close sidebar on escape key
         document.addEventListener('keydown', function(event) {
             if (event.key === 'Escape') {
                 const sidebar = document.getElementById('sidebar');
@@ -499,7 +489,6 @@
             }
         });
         
-        // Handle window resize
         window.addEventListener('resize', function() {
             const sidebar = document.getElementById('sidebar');
             if (window.innerWidth >= 768) {
@@ -508,7 +497,6 @@
             }
         });
         
-        // Auto-close sidebar when navigating on mobile
         document.addEventListener('DOMContentLoaded', function() {
             const menuItems = document.querySelectorAll('.menu-item');
             menuItems.forEach(item => {

@@ -39,7 +39,7 @@ class AdminController extends Controller
                 ->with('error', 'Debes iniciar sesión primero.');
         }
 
-        // Obtener datos reales de la base de datos
+        // Obtener datos de la base de datos
         $datos = [
             'total_pacientes' => Paciente::where('activo', true)->count(),
             'citas_hoy' => Cita::whereDate('fecha', today())->count(),

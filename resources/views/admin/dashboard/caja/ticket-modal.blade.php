@@ -26,7 +26,6 @@
             </tr>
         </thead>
         <tbody>
-            <!-- CORREGIDO: usar detalleVentas en lugar de detalles -->
             @foreach($venta->detalleVentas as $detalle)
             <tr>
                 <td>

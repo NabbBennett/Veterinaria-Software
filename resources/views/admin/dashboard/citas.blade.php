@@ -8,7 +8,6 @@
     </button>
 </div>
 
-<!-- Modal para nueva cita -->
 <div class="modal fade" id="nuevaCitaModal" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -100,12 +99,10 @@
     </div>
 </div>
 
-<!-- Calendario de Citas -->
 <div class="card mb-4">
     <div class="card-body">
         <h5 class="card-title">CALENDARIO DE CITAS</h5>
         
-        <!-- Header del Calendario -->
         <div class="row mb-4">
             <div class="col-md-6">
                 <h6 id="mesActual">MES ACTUAL</h6>
@@ -117,7 +114,6 @@
             </div>
         </div>
 
-        <!-- Días de la semana -->
         <div class="row text-center fw-bold mb-3">
             <div class="col p-2 border">Lu</div>
             <div class="col p-2 border">Ma</div>
@@ -128,14 +124,12 @@
             <div class="col p-2 border">Do</div>
         </div>
 
-        <!-- Semanas del mes -->
         <div class="row text-center" id="calendario">
-            <!-- El calendario se generará dinámicamente con JavaScript -->
+
         </div>
     </div>
 </div>
 
-<!-- Lista de Citas del Día Seleccionado -->
 <div class="card">
     <div class="card-body">
         <h5 class="card-title" id="tituloCitasDia">CITAS DE HOY - {{ now()->format('d/m/Y') }}</h5>
@@ -188,7 +182,6 @@
     </div>
 </div>
 
-<!-- Modal para ver detalles de cita -->
 <div class="modal fade" id="detalleCitaModal" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -197,7 +190,6 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
             </div>
             <div class="modal-body" id="detalleCitaContent">
-                <!-- Contenido dinámico -->
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
@@ -206,7 +198,6 @@
     </div>
 </div>
 
-<!-- Modal para editar cita -->
 <div class="modal fade" id="editarCitaModal" tabindex="-1">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -218,7 +209,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body" id="editarCitaContent">
-                    <!-- Contenido dinámico -->
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
@@ -230,11 +221,9 @@
 </div>
 
 <script>
-// Variables globales para el calendario
 let fechaActual = new Date();
 let fechaSeleccionada = new Date();
 
-// Función para mostrar alertas
 function showAlert(message, type) {
     const alertDiv = document.createElement('div');
     alertDiv.className = `alert alert-${type === 'success' ? 'success' : 'danger'} alert-dismissible fade show`;
@@ -253,7 +242,6 @@ function showAlert(message, type) {
     }, 3000);
 }
 
-// Auto-cargar precio del servicio seleccionado
 document.addEventListener('DOMContentLoaded', function() {
     const servicioSelect = document.querySelector('select[name="servicio_id"]');
     if (servicioSelect) {
@@ -268,7 +256,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Guardar nueva cita (corregido y robusto)
 document.addEventListener('DOMContentLoaded', function() {
     const formNuevaCita = document.getElementById('formNuevaCita');
     if (!formNuevaCita) return;
@@ -296,10 +283,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             });
 
-            // Intentar convertir la respuesta a JSON
             const data = await response.json().catch(() => ({}));
 
-            // Si la respuesta no fue exitosa (status >= 400)
             if (!response.ok) {
                 console.error('Error en respuesta del servidor:', data);
                 const mensaje = data?.message || 'Error al procesar la solicitud';
@@ -307,7 +292,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 return;
             }
 
-            // Si se guardó correctamente
             if (data.success) {
                 const modal = bootstrap.Modal.getInstance(document.getElementById('nuevaCitaModal'));
                 if (modal) modal.hide();
@@ -330,14 +314,12 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 
-// Buscar citas
 function buscarCitas() {
     const texto = document.getElementById('buscadorCitas').value.toLowerCase().trim();
     const filas = document.querySelectorAll('#tablaCitas tr');
     let encontradas = 0;
     
     filas.forEach(fila => {
-        // Saltar la fila de "SIN CITAS"
         if (fila.querySelector('td[colspan]')) {
             fila.style.display = 'none';
             return;
@@ -352,7 +334,6 @@ function buscarCitas() {
         }
     });
     
-    // Mostrar mensaje si no hay resultados
     const tabla = document.getElementById('tablaCitas');
     const mensajeExistente = tabla.querySelector('.no-results');
     
@@ -372,7 +353,6 @@ function buscarCitas() {
     }
 }
 
-// Permitir buscar con Enter
 document.addEventListener('DOMContentLoaded', function() {
     const buscador = document.getElementById('buscadorCitas');
     if (buscador) {
@@ -384,7 +364,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Ver detalles de cita
 function verDetallesCita(citaId) {
     fetch(`/admin/dashboard/citas/${citaId}/ver`)
         .then(response => {
@@ -397,7 +376,6 @@ function verDetallesCita(citaId) {
             const modalContent = document.getElementById('detalleCitaContent');
             modalContent.innerHTML = html;
             
-            // Mostrar modal
             new bootstrap.Modal(document.getElementById('detalleCitaModal')).show();
         })
         .catch(error => {
@@ -406,9 +384,7 @@ function verDetallesCita(citaId) {
         });
 }
 
-// Editar cita
 function editarCita(citaId) {
-    // Cerrar modal de detalles si está abierto
     const modalDetalles = bootstrap.Modal.getInstance(document.getElementById('detalleCitaModal'));
     if (modalDetalles) modalDetalles.hide();
 
@@ -423,12 +399,10 @@ function editarCita(citaId) {
             const modalContent = document.getElementById('editarCitaContent');
             modalContent.innerHTML = html;
             
-            // Configurar el formulario de edición
             const form = document.getElementById('formEditarCita');
             if (form) {
                 form.action = `/admin/dashboard/citas/${citaId}`;
                 
-                // Auto-cargar precio del servicio en edición
                 const servicioSelect = modalContent.querySelector('select[name="servicio_id"]');
                 if (servicioSelect) {
                     servicioSelect.addEventListener('change', function() {
@@ -442,7 +416,6 @@ function editarCita(citaId) {
                 }
             }
             
-            // Mostrar modal de edición
             new bootstrap.Modal(document.getElementById('editarCitaModal')).show();
         })
         .catch(error => {
@@ -451,7 +424,6 @@ function editarCita(citaId) {
         });
 }
 
-// Guardar cambios de edición
 document.addEventListener('DOMContentLoaded', function() {
     const formEditarCita = document.getElementById('formEditarCita');
     if (formEditarCita) {
@@ -482,7 +454,6 @@ document.addEventListener('DOMContentLoaded', function() {
                     if (modal) modal.hide();
                     
                     showAlert('Cita actualizada exitosamente', 'success');
-                    // Recargar las citas del día actual
                     cargarCitasDelDia(fechaSeleccionada);
                 } else {
                     showAlert(data.message || 'Error al actualizar la cita', 'error');
@@ -500,7 +471,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 });
 
-// Eliminar cita
 function eliminarCita(citaId) {
     if (!confirm('¿Estás seguro de que deseas eliminar esta cita?')) {
         return;
@@ -518,15 +488,12 @@ function eliminarCita(citaId) {
     .then(data => {
         if (data.success) {
             showAlert('Cita eliminada exitosamente', 'success');
-            // Remover la fila de la tabla
             document.querySelector(`tr[data-cita-id="${citaId}"]`)?.remove();
-            // Cerrar modales si están abiertos
             const modalDetalles = bootstrap.Modal.getInstance(document.getElementById('detalleCitaModal'));
             if (modalDetalles) modalDetalles.hide();
             const modalEditar = bootstrap.Modal.getInstance(document.getElementById('editarCitaModal'));
             if (modalEditar) modalEditar.hide();
             
-            // Verificar si quedan citas
             const filasRestantes = document.querySelectorAll('#tablaCitas tr:not(.no-results)');
             if (filasRestantes.length === 0) {
                 const tabla = document.getElementById('tablaCitas');
@@ -548,7 +515,6 @@ function eliminarCita(citaId) {
     });
 }
 
-// Funciones del calendario
 function inicializarCalendario() {
     actualizarHeader();
     generarCalendario();
@@ -601,7 +567,6 @@ function generarCalendario() {
             const esHoy = esHoyFecha(fecha);
             const esSeleccionado = esMismaFecha(fecha, fechaSeleccionada);
 
-            // Aplicar estilos
             if (!esMesActual) {
                 celda.classList.add('text-muted', 'bg-light');
             }
@@ -616,7 +581,6 @@ function generarCalendario() {
             numeroDia.textContent = diaNumero;
             celda.appendChild(numeroDia);
 
-            // Cargar contador de citas
             cargarContadorCitas(fecha, celda);
 
             const fechaCopia = new Date(fecha); 
@@ -677,7 +641,6 @@ function cargarCitasDelDia(fecha) {
 
     tituloCitas.textContent = 'CITAS DEL ' + fechaFormateada.toUpperCase();
 
-    // Mostrar loading
     tablaCitas.innerHTML = `
         <tr>
             <td colspan="6" class="text-center py-3">
@@ -770,7 +733,6 @@ function cargarCitasDelDia(fecha) {
 }
 
 function formatearFechaParaAPI(fecha) {
-    // Formato YYYY-MM-DD
     const year = fecha.getFullYear();
     const month = String(fecha.getMonth() + 1).padStart(2, '0');
     const day = String(fecha.getDate()).padStart(2, '0');
@@ -790,14 +752,11 @@ function esMismaFecha(fecha1, fecha2) {
            fecha1.getFullYear() === fecha2.getFullYear();
 }
 
-// Inicializar cuando el DOM esté listo
 document.addEventListener('DOMContentLoaded', function() {
     console.log('DOM cargado - Inicializando calendario');
     
-    // Inicializar calendario
     inicializarCalendario();
 
-    // Event listeners para navegación del calendario
     const mesAnterior = document.getElementById('mesAnterior');
     const mesSiguiente = document.getElementById('mesSiguiente');
     
@@ -808,12 +767,10 @@ document.addEventListener('DOMContentLoaded', function() {
         mesSiguiente.addEventListener('click', () => cambiarMes(1));
     }
 
-    // Debug: verificar fechas
     console.log('Fecha actual:', fechaActual);
     console.log('Fecha seleccionada:', fechaSeleccionada);
 });
 
-// Hacer funciones globales
 window.verDetallesCita = verDetallesCita;
 window.editarCita = editarCita;
 window.eliminarCita = eliminarCita;
@@ -846,12 +803,10 @@ window.inicializarCalendario = inicializarCalendario;
     --bs-bg-opacity: 0.1;
 }
 
-/* Estilo para el día seleccionado */
 .bg-primary {
     background-color: #0d6efd !important;
 }
 
-/* Estilo para el día de hoy */
 .bg-info.bg-opacity-10 {
     background-color: rgba(13, 110, 253, 0.1) !important;
     border: 2px solid #0d6efd;

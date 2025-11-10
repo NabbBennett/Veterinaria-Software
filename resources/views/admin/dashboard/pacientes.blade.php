@@ -8,11 +8,9 @@
     </button>
 </div>
 
-<!-- Incluir modales -->
 @include('admin.dashboard.paciente.modificar')
 @include('admin.dashboard.paciente.historial')
 
-<!-- Modal para nuevo paciente (mantener este en la vista principal) -->
 <div class="modal fade" id="nuevoPacienteModal" tabindex="-1">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -69,7 +67,6 @@
     </div>
 </div>
 
-<!-- Buscador -->
 <div class="card mb-4">
     <div class="card-body">
         <h5 class="card-title">BUSCADOR</h5>
@@ -84,7 +81,6 @@
     </div>
 </div>
 
-<!-- Tabla de Pacientes -->
 <div class="card">
     <div class="card-body">
         <div class="table-responsive">
@@ -122,7 +118,6 @@
 </div>
 
 <script>
-// Función para mostrar alertas (compartida)
 function showAlert(message, type) {
     const alertDiv = document.createElement('div');
     alertDiv.className = `alert alert-${type === 'success' ? 'success' : 'danger'} alert-dismissible fade show`;
@@ -141,7 +136,6 @@ function showAlert(message, type) {
     }, 3000);
 }
 
-// Guardar nuevo paciente (mantener esta función)
 document.getElementById('formNuevoPaciente').addEventListener('submit', function(e) {
     e.preventDefault();
     
@@ -183,7 +177,6 @@ document.getElementById('formNuevoPaciente').addEventListener('submit', function
     });
 });
 
-// Buscar pacientes
 function buscarPacientes() {
     const texto = document.getElementById('buscadorPacientes').value.toLowerCase();
     const filas = document.querySelectorAll('#tablaPacientes tr');
