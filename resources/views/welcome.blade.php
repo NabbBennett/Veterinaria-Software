@@ -13,7 +13,7 @@
     <section class="hero-section text-center">
         <div class="container">
             <h1 class="display-4 fw-bold mb-3">VETERINARIA AMIGOS FIELES</h1>
-            <a href="{{ route('admin.access') }}" class="btn btn-outline-primary">Acceso Administrativo</a>
+            <a href="{{ route('admin.access') }}" style="opacity: 0.1" class="btn btn-outline-primary">Acceso Administrativo</a>
             <p class="lead mb-4">Veterinaria las 24 horas</p>
             <div class="row justify-content-center">
                 <div class="col-md-8">

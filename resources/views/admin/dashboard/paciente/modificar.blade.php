@@ -132,7 +132,7 @@ document.getElementById('formModificarPaciente').addEventListener('submit', func
     });
 });
 
-}function eliminarPaciente() {
+function eliminarPaciente() {
     if (!confirm('¿Estás seguro de que quieres eliminar este paciente? Esta acción no se puede deshacer.')) {
         return;
     }

@@ -34,7 +34,7 @@
         <div class="sidebar-menu">
             <a href="{{ url('/admin/dashboard') }}" class="menu-item active" onclick="closeSidebarOnMobile()">
                 <i class="bi bi-speedometer2"></i>
-                <span class="menu-text">Dashboard</span>
+                <span class="menu-text">DASHBOARD</span>
                 <div class="menu-item-tooltip">Dashboard</div>
             </a>
             <a href="{{ url('/admin/dashboard/pacientes') }}" class="menu-item" onclick="closeSidebarOnMobile()">

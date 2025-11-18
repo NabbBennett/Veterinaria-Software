@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Veterinaria</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="{{ asset('css/admin/login.css') }}">
 </head>
 <body>
@@ -15,7 +16,9 @@
                     <div class="card login-card">
                         <div class="card-body p-5">
                             <div class="text-center mb-4">
-                                <div class="logo mb-3">LOGO</div>
+                                <div class="logo mb-3">
+                                    <i class="fa-solid fa-paw"></i>
+                                </div>
                                 <h4 class="card-title">INICIAR SESIÓN</h4>
                             </div>
 
